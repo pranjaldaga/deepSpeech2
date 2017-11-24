@@ -50,7 +50,7 @@ def parse_args():
     parser.add_argument('--run_once', type=distutils.util.strtobool, default=False,
                         help='Whether to run eval only once')
     parser.add_argument('--engine', type=str, default='tf',
-                        help = 'Select the engine you use: tf, mkl, mkldnn_rnn, cudnn_rnn')
+                        help = 'Select the engine you use: tf, cudnn')
     parser.add_argument('--nchw', type=distutils.util.strtobool, default=True,
                         help = 'Whether to use nchw memory layout')
     args = parser.parse_args()

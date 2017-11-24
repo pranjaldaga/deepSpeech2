@@ -1,7 +1,8 @@
 # TensorFlow implementation of DeepSpeech2
 End-to-end speech recognition using TensorFlow
 
-This repository contains TensorFlow code for an end-to-end speech recognition engine by implementing Baidu's DeepSpeech2 model on IA architectures. This work was based on the code developed by Ford[https://github.com/fordDeepDSP/deepSpeech] and many changes have been conducted to fin our solution.
+This repository contains TensorFlow code for speech recognition engine based on Baidu's DeepSpeech2 model [http://proceedings.mlr.press/v48/amodei16.pdf]. 
+This work is forked from the code developed by Ford[https://github.com/fordDeepDSP/deepSpeech] and Yao-Matrix (yaoweifeng0301@126.com) [https://github.com/yao-matrix/deepSpeech2]. 
 
 This software is released under a BSD license. The license to this software does not apply to TensorFlow, which is available under the Apache 2.0 license, or the third party pre-requisites listed below, which are available under their own respective licenses.
 
@@ -40,8 +41,8 @@ $ pip install --upgrade 'tensorflow-gpu==1.2.0'
 ```
 *Step 2: Clone this git repo.*
 ```shell
-$ git clone https://github.com/yao-matrix/deepSpeech2.git
-$ cd deepSpeech
+$ git clone https://github.com/borisgin/deepSpeech2.git
+$ cd deepSpeech2
 ```
 
 Preprocessing the data

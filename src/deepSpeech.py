@@ -224,7 +224,7 @@ def loss(logits, labels, seq_lens):
     # print "seq len[after]: ", seq_lens
 
     # Calculate the average ctc loss across the batch.
-    ctc_loss = tf.nn.ctc_loss(labels = labels, inputs = tf.cast(logits, tf.float32), sequence_length = seq_lens, preprocess_collapse_repeated = True, time_major = True)
+    ctc_loss = tf.nn.ctc_loss(labels = labels, inputs = tf.cast(logits, tf.float32), sequence_length = seq_lens, preprocess_collapse_repeated = True, ignore_longer_outputs_than_inputs=True, time_major = True)
     ctc_loss_mean = tf.reduce_mean(ctc_loss, name = 'ctc_loss')
     tf.add_to_collection('losses', ctc_loss_mean)
 

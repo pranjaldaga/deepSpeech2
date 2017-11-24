@@ -41,8 +41,8 @@ def parse_args():
                         default='../models/librispeech/train',
                         help='Directory to write event logs and checkpoints')
     parser.add_argument('--platform', type=str,
-                        default='knl',
-                        help='running platform: knl or bdw')
+                        default='bdw',
+                        help='running platform: bdw')
     parser.add_argument('--data_dir', type=str,
                         default='',
                         help='Path to the audio data directory')
@@ -92,7 +92,7 @@ def parse_args():
     parser.add_argument('--inter_op', type=int, default=1,
                         help='Inter op thread num')
     parser.add_argument('--engine', type=str, default='tf',
-                        help='Select the engine you use: tf, mkl, mkldnn_rnn, cudnn_rnn')
+                        help='Select the engine you use: tf, cudnn')
     parser.add_argument('--debug', type=distutils.util.strtobool, default=False,
                         help='Switch on to enable debug log')
     parser.add_argument('--nchw', type=distutils.util.strtobool, default=True,
@@ -269,7 +269,7 @@ def get_loss_grads(sess, data, optimizer):
     [feats, labels, seq_lens] = data
     grads_and_vars = None
     with tf.variable_scope(tf.get_variable_scope()) as vscope:
-        with tf.device('/cpu'):
+        with tf.device('/gpu'):
             with tf.name_scope("loss_grad") as scope:
                 # Calculate the loss for the deepSpeech model.
                 loss = tower_loss(sess, scope, feats, labels, seq_lens)
@@ -422,7 +422,7 @@ def train():
       This function build a set of ops required to build the model and optimize
       weights.
     """
-    with g.as_default(), tf.device('/cpu'):
+    with g.as_default(), tf.device('/gpu'):
         # Learning rate set up
         learning_rate, global_step = set_learning_rate()
 
@@ -524,15 +524,10 @@ def main():
         json.dump(vars(ARGS), outfile, sort_keys=True, indent=4)
 
     args = setenvs(sys.argv)
-    print('Running on platform: ', args.platform)
-  
-    if args.platform == 'bdw':
-        ARGS.intra_op = 8
-        ARGS.inter_op = 5
-    elif args.platform == 'knl':
-        ARGS.intra_op = 8
-        ARGS.inter_op = 8
-
+#    print('Running on platform: ', args.platform) 
+#    if args.platform == 'bdw':
+    ARGS.intra_op = 8
+    ARGS.inter_op = 5
     print('Running inter_op: ', ARGS.inter_op)
     print('Running intra_op: ', ARGS.intra_op)
  
