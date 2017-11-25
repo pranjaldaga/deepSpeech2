@@ -1,9 +1,9 @@
 #!/bin/bash
 
 clear
-cur_dir=$(cd "$(dirname $0)";pwd)
+# cur_dir=$(cd "$(dirname $0)";pwd)
 # echo ${cur_dir}
-export PYTHONPATH=${cur_path}:$PYTHONPATH
+# export PYTHONPATH=${cur_dir}:$PYTHONPATH
 # echo $PYTHONPATH
 # export LD_LIBRARY_PATH=/usr/local/cuda/extras/CUPTI/lib64/:$LD_LIBRARY_PATH
 

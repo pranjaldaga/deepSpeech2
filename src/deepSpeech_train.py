@@ -44,7 +44,7 @@ def parse_args():
                         default='bdw',
                         help='running platform: bdw')
     parser.add_argument('--data_dir', type=str,
-                        default='',
+                        default='/raid/speech/librispeech/audio/processed/', 
                         help='Path to the audio data directory')
     parser.add_argument('--max_steps', type=int, default=20000,
                         help='Number of batches to run')
@@ -95,7 +95,7 @@ def parse_args():
                         help='Select the engine you use: tf, cudnn')
     parser.add_argument('--debug', type=distutils.util.strtobool, default=False,
                         help='Switch on to enable debug log')
-    parser.add_argument('--nchw', type=distutils.util.strtobool, default=True,
+    parser.add_argument('--nchw', type=distutils.util.strtobool, default=False,
                         help='Whether to use nchw memory layout')
     parser.add_argument('--dummy', type=distutils.util.strtobool, default=False,
                         help='Whether to use dummy data rather than librispeech data')
@@ -422,7 +422,7 @@ def train():
       This function build a set of ops required to build the model and optimize
       weights.
     """
-    with g.as_default(), tf.device('/gpu'):
+    with g.as_default(), tf.device('/cpu'):
         # Learning rate set up
         learning_rate, global_step = set_learning_rate()
 
@@ -475,10 +475,10 @@ def train():
 
         # Initialize vars.
         if ARGS.checkpoint is not None:
-            print "can use checkpoint"
+            print "start from checkpoint"
             global_step = initialize_from_checkpoint(sess, saver)
         else:
-            print "cannot use checkpoint"
+            print "start from scratch"
             sess.run(tf.global_variables_initializer())
 
         # print "Trainable Variables: "
@@ -526,10 +526,10 @@ def main():
     args = setenvs(sys.argv)
 #    print('Running on platform: ', args.platform) 
 #    if args.platform == 'bdw':
-    ARGS.intra_op = 8
-    ARGS.inter_op = 5
-    print('Running inter_op: ', ARGS.inter_op)
-    print('Running intra_op: ', ARGS.intra_op)
+    ARGS.intra_op = 0 #12
+    ARGS.inter_op = 0 #12
+#    print('Running inter_op: ', ARGS.inter_op)
+#    print('Running intra_op: ', ARGS.intra_op)
  
     train()
 
